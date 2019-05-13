@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.mapper.OrderMapper">
+    <resultMap id="orders" type="com.shop.dto.Order_forshow">
+        <id column="order_id" property="order_id"/>
+        <result column="user_id" property="user_id"/>
+        <result column="receive_id" property="receiver_id"/>
+        <result column="creattime" property="creattime"/>
+        <collection property="shop_pergoods_msgs" column="order_id" select="getgoods_msg"></collection>
+    </resultMap>
+    <select id="getgoods_msg" resultType="com.shop.dto.Shop_pergoods_msg">
+         SELECT
+    shop_msg_id,msg_id,order_id,goods_name,goods_price,goods_style,goods_size,picture_adress
+    FROM
+    shop_pergoods_msg
+    WHERE
+    order_id=#{order_id}
+    </select>
+
+    <insert id="payby_directly" useGeneratedKeys="true" keyProperty="order_id" keyColumn="order_id">
+      INSERT INTO `order`
+      (user_id,receive_id)
+      VALUES
+      (
+      ${user_id},${receive_id}
+      )
+    </insert>
+    <insert id="addorder" parameterType="com.shop.dto.Order_forshow" useGeneratedKeys="true" keyProperty="order_id" keyColumn="order_id">
+        INSERT INTO `order`
+      (user_id,receive_id,creattime)
+      VALUES
+      (
+      #{user_id},#{receive_id},#{creattime}
+      )
+    </insert>
+    <select id="getorders" resultType="com.shop.dto.Order">
+      SELECT
+      order_id,user_id,receive_id
+      FROM `order`
+      WHERE user_id=${id}
+    </select>
+
+    <select id="getorderforshow" resultMap="orders">
+      SELECT
+      order_id,user_id,receive_id,creattime
+      FROM `order`
+      WHERE user_id=${id}
+    </select>
+
+    <delete id="delorder" >
+        DELETE FROM `order`
+        WHERE
+        order_id=${id}
+    </delete>
+</mapper>

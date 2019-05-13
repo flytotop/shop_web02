@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.mapper.Shop_Pergoods_MsgMapper">
+    <select id="getshop_pergoods_msg" resultType="com.shop.dto.Shop_pergoods_msg">
+    SELECT
+    shop_msg_id,msg_id,order_id,goods_name,goods_price,goods_style,goods_size,picture_adress,shop_goods_name
+    FROM
+    shop_pergoods_msg
+    WHERE
+    order_id=${id}
+</select>
+
+    <insert id="addgoodsto_shop_msg" parameterType="com.shop.dto.Shop_pergoods_msg">
+      INSERT INTO shop_pergoods_msg
+      (
+      msg_id,order_id,goods_name,goods_price,goods_style,goods_size,picture_adress,shop_goods_name
+      )VALUES (
+      #{msg_id},#{order_id},#{goods_name},#{goods_price},#{goods_style},#{goods_size},#{picture_adress},#{shop_goods_name}
+      )
+    </insert>
+</mapper>

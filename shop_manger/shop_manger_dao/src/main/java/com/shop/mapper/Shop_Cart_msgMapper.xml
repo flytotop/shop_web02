@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.mapper.Shop_Cart_msgMapper">
+    <insert id="addshopping_cart_pergoods_msg" parameterType="com.shop.dto.Shopping_cart_pergoods_msg">
+        INSERT INTO shopping_cart_pergoods_msg
+        (
+        msg_id,shopping_cart_id,goods_name,goods_price,goods_style,goods_size,picture_adress
+        )VALUES (
+        #{msg_id},  #{shopping_cart_id},  #{goods_name},  #{goods_price},  #{goods_style},  #{goods_size},  #{picture_adress}
+        )
+    </insert>
+
+    <delete id="delshopping_cart_pergoods_msg">
+      DELETE FROM shopping_cart_pergoods_msg
+      WHERE shop_msg_id=${id}
+    </delete>
+
+    <select id="getshopping_cart_pergoods_msg" resultType="com.shop.dto.Shopping_cart_pergoods_msg">
+      SELECT
+      shop_msg_id,msg_id,shopping_cart_id,goods_name,goods_price,goods_style,goods_size,picture_adress,goods_num
+       FROM
+       shopping_cart_pergoods_msg
+       WHERE
+       shopping_cart_id=${id}
+    </select>
+
+</mapper>

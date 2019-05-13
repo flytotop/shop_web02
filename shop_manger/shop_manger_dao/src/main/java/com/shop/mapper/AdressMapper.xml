@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.mapper.AdressMapper">
+    <insert id="addreciveadress" parameterType="com.shop.dto.Receive_adress">
+    INSERT INTO receive_adress
+    (
+      user_id,tel,receive_user ,receive_adress
+    )VALUES
+    (
+    #{user_id},#{tel},#{receive_user},#{adress}
+    )
+    </insert>
+
+    <update id="updatareciveadress" parameterType="com.shop.dto.Receive_adress">
+        UPDATE receive_adress
+        SET
+         user_id=#{user_id},tel=#{tel},receive_user=#{receive_user}
+    </update>
+
+    <delete id="delreciveadress">
+      DELETE FROM receive_adress
+        WHERE receive_id=${id}
+    </delete>
+
+    <select id="getreciveadress" resultType="com.shop.dto.Receive_adress">
+        SELECT  user_id,tel,receive_user
+        FROM receive_adress
+        WHERE
+        user_id=${id}
+    </select>
+</mapper>

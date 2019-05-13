@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.mapper.GoodsMapper">
+    <resultMap id="goodsList02" type="com.shop.dto.Goods">
+        <id column="msg_id" property="msg_id"></id>
+        <result column="secondlevel_id" property="secondlevel_id"></result>
+        <result column="creat_time" property="creat_time"></result>
+        <result column="goods_ishot" property="goods_ishot"></result>
+        <result column="picture_adress" property="picture"></result>
+        <result column="goods_price" property="goods_price"></result>
+        <result column="goods_name" property="goods_name"/>
+        <collection property="goods_styles" select="getstyles" column="msg_id"/>
+        <collection property="pictures" column='msg_id'  select="getpictures" />
+
+    </resultMap>
+    <resultMap id="styles" type="com.shop.dto.Goods_Style" >
+        <id column="style_id" property="style_id"></id>
+        <result column="style_name" property="style_name"></result>
+        <collection property="goods_sizes" select="getsize" column="style_id">
+        </collection>
+    </resultMap>
+    <select id="getstyles" resultMap="styles">
+        SELECT style_id ,style_name
+        FROM goods_style
+        WHERE msg_id=#{msg_id}
+    </select>
+    <select id="getsize" resultType="com.shop.dto.Goods_size">
+        SELECT   size_id,  size_name, size_num FROM goods_size
+        WHERE style_id=#{style_id}
+    </select>
+    <select id="getpictures" resultType="com.shop.dto.Picture">
+        SELECT pictureid,pictureurl FROM picture
+        WHERE goodsid=#{msg_id}
+    </select>
+
+
+    <select id="getgoodsby_secondlevel" resultMap="goodsList02">
+        SELECT
+        msg_id,
+        secondlevel_id,
+        creat_time,
+        goods_ishot,
+        picture_adress,
+        goods_price,
+        goods_name
+        FROM goods_msg
+        WHERE
+        secondlevel_id=${id}
+    </select>
+    <select id="getgoodsby_name" resultMap="goodsList02">
+        SELECT
+        msg_id,
+        secondlevel_id,
+        creat_time,
+        goods_ishot,
+        picture_adress,
+        goods_price,
+        goods_name
+        FROM goods_msg
+          WHERE
+        goods_name LIKE ${name}
+    </select>
+    <select id="getgoodsby_gooodsid" resultMap="goodsList02">
+        SELECT
+        msg_id,
+        secondlevel_id,
+        creat_time,
+        goods_ishot,
+        picture_adress,
+        goods_price,
+        goods_name
+        FROM goods_msg
+        WHERE
+        msg_id=${id}
+    </select>
+    <select id="getgoodsby_creattime" resultMap="goodsList02">
+        SELECT
+        msg_id,
+        secondlevel_id,
+        creat_time,
+        goods_ishot,
+        picture_adress,
+        goods_price,
+        goods_name
+        FROM goods_msg
+        <if test="result==true">
+            limt 10
+        </if>
+    </select>
+    <select id="getgoodsby_ishot" resultMap="goodsList02">
+        SELECT
+        msg_id,
+        secondlevel_id,
+        creat_time,
+        goods_ishot,
+        picture_adress,
+        goods_price,
+        goods_name
+        FROM goods_msg
+        WHERE
+        goods_ishot=true
+        <if test="result==true">
+            limt 10
+        </if>
+    </select>
+</mapper>

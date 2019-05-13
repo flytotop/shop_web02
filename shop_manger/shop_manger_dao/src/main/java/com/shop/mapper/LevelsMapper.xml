@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.mapper.LevelsMapper">
+
+    <select id="getfirstlevel"  resultType="com.shop.dto.First_Levels">
+        SELECT firstlevel_id ,firstlevel_name
+        FROM firstlevels
+    </select>
+    <select id="geseoncdlevels" resultType="com.shop.dto.Second_Levels">
+        SELECT  secondlevel_id ,secondlevel_name
+        FROM secondlevels
+        WHERE
+        firstlevel_id=${id}
+    </select>
+</mapper>
