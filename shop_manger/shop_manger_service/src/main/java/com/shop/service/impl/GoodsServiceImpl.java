@@ -2,6 +2,7 @@ package com.shop.service.impl;
 
 import com.shop.dto.Goods;
 import com.shop.dto.Second_Levels;
+import com.shop.dto.Shop_pergoods_msg;
 import com.shop.mapper.GoodsMapper;
 import com.shop.mapper.LevelsMapper;
 import com.shop.service.GoodsService;
@@ -34,7 +35,11 @@ public class GoodsServiceImpl implements GoodsService {
         List<Second_Levels> second_levels=levelsMapper.geseoncdlevels(firstlevel_id);
         List goods=new ArrayList();
         for (Second_Levels second_levels1:second_levels){
-            goods.add(goodsMapper.getgoodsby_secondlevel(second_levels1.getsecondlevel_id()));
+           List<Goods> goodsList=goodsMapper.getgoodsby_secondlevel(second_levels1.getsecondlevel_id());
+//            goods.add(goodsMapper.getgoodsby_secondlevel(second_levels1.getsecondlevel_id()));
+            if (goodsList.size()!=0){
+                goods.add(goodsList);
+            }
         }
         return goods;
     }

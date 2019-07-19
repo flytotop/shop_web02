@@ -3,8 +3,10 @@ package com.shop.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+
 public class MD5Util {
     public static String getMD5(String str){
+
         try {
             MessageDigest messageDigest=MessageDigest.getInstance("MD5");
             byte inputarry[]=str.getBytes();

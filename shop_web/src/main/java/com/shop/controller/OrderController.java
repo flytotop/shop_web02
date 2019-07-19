@@ -4,9 +4,14 @@ import com.shop.dto.Order_forshow;
 import com.shop.dto.Shop_pergoods_msg;
 import com.shop.dto.User;
 import com.shop.service.OrderService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -15,11 +20,19 @@ import java.util.List;
 
 @Controller
 @RequestMapping("order")
+@Api(value = "order",description = "订单管理")
 public class OrderController {
     @Autowired
     private OrderService orderService;
     //选中单件商品添加订单
-    @RequestMapping("/addorder")
+
+    @ApiOperation(value = "添加订单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "order_forshow", value = "输入收货地址d",required = false,paramType = "query", dataType = "Order_forshow"),
+            @ApiImplicitParam(name = "shop_pergoods_msg", value = "密码",required = true,paramType = "query", dataType = "Shop_pergoods_msg[]")
+
+    })
+    @RequestMapping(value = "/addorder",method = RequestMethod.POST)
     @ResponseBody
     public String addorder(HttpSession session , Order_forshow order_forshow, Shop_pergoods_msg[] shop_pergoods_msg){
         User user=(User) session.getAttribute("user");
@@ -31,9 +44,12 @@ public class OrderController {
         }
 
     }
-
+    @ApiOperation(value = "删除订单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "orderid", value = "订单id",required = false,paramType = "query", dataType = "Integer")
+    })
     //删除订单
-    @RequestMapping("/delorder")
+    @RequestMapping(value = "/delorder" ,method = RequestMethod.POST)
     @ResponseBody
     public String delorder(HttpSession session,Integer orderid){
         User user=(User)session.getAttribute("user");
@@ -44,8 +60,10 @@ public class OrderController {
         }
     }
 
+
+    @ApiOperation(value = "查看订单")
     //查看订单
-    @RequestMapping("getorders")
+    @RequestMapping(value = "getorders" ,method = RequestMethod.POST)
     @ResponseBody
     public List getorders(HttpSession session){
         User user=(User)session.getAttribute("user");
